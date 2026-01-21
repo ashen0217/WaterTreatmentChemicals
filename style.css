@@ -25,8 +25,66 @@ body {
     @apply font-sans text-gray-800 bg-gray-50;
 }
 
+/* Hero gradient backgrounds */
+.hero-gradient {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    position: relative;
+}
+
+/* FAQ accordion animations */
+.faq-toggle {
+    @apply transition-all duration-200 ease-out;
+}
+
+.faq-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
 .faq-content {
-    @apply transition-all duration-200 ease-out overflow-hidden;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+}
+
+.faq-content.active {
+    max-height: 2000px;
+    opacity: 1;
+    transition: max-height 0.5s ease-in, opacity 0.4s ease-in;
+}
+
+/* Hover effects for info cards */
+.info-card {
+    @apply transition-all duration-300 ease-in-out;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Section headers with gradient accents */
+.section-header-accent {
+    @apply relative;
+}
+
+.section-header-accent::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+    border-radius: 2px;
+}
+
+/* FAQ item hover effect */
+.faq-item {
+    @apply transition-all duration-200 ease-out;
+}
+
+.faq-item:hover {
+    @apply bg-gray-50;
 }
 
 ::-webkit-scrollbar {

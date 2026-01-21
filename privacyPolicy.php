@@ -17,16 +17,27 @@ include 'includes/header.php';
     <!-- Header Component -->
     <custom-header></custom-header>
 
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Privacy Policy</h1>
-            <div class="w-24 h-1 bg-brand-600 mx-auto"></div>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-brand-900 to-brand-800 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-900 to-brand-800 opacity-90"></div>
+        <!-- Decorative Elements -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Privacy Policy</h1>
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto">Your trust is important to us. Learn how we protect your information.</p>
+            <div class="w-24 h-1 bg-brand-300 mx-auto mt-6"></div>
         </div>
+    </div>
 
-        <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
-            <div class="p-8 border-b border-gray-200 bg-gray-50">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+
+        <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100 info-card">
+            <div class="p-8 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
                 <h2 class="text-2xl font-bold text-gray-900">Last Updated: June 2023</h2>
-                <p class="text-gray-600 mt-2">Your trust is important to us. This policy explains how we collect, use, and protect your information.</p>
+                <p class="text-gray-600 mt-2">This policy explains how we collect, use, and protect your information.</p>
             </div>
 
             <div class="p-8 space-y-8">
@@ -107,6 +118,11 @@ include 'includes/header.php';
             </div>
         </div>
     </main>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+    </script>
 </body>
 </html>
 

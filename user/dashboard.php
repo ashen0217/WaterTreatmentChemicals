@@ -349,4 +349,4 @@ function isActive($page) {
     </script>
 </body>
 </html>
-<?php include '../includes/footer.php'; ?>
+<?php include 'footer.php'; ?>

@@ -17,21 +17,31 @@ include 'includes/header.php';
     <!-- Header Component -->
     <custom-header></custom-header>
 
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Frequently Asked Questions</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Find answers to common questions about our water treatment solutions and services.</p>
-            <div class="w-24 h-1 bg-brand-600 mx-auto mt-6"></div>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-brand-900 to-brand-800 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-900 to-brand-800 opacity-90"></div>
+        <!-- Decorative Elements -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Frequently Asked Questions</h1>
+            <p class="text-xl text-brand-100 max-w-2xl mx-auto">Find answers to common questions about our water treatment solutions and services.</p>
+            <div class="w-24 h-1 bg-brand-300 mx-auto mt-6"></div>
         </div>
+    </div>
 
-        <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
-            <div class="p-8 border-b border-gray-200 bg-gray-50">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+
+        <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100 info-card">
+            <div class="p-8 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-brand-50">
                 <h2 class="text-2xl font-bold text-gray-900">Product Questions</h2>
             </div>
 
             <div class="divide-y divide-gray-200">
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             What types of water treatment chemicals do you offer?
@@ -53,7 +63,7 @@ include 'includes/header.php';
                 </div>
 
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             How do I determine the right chemical for my water treatment needs?
@@ -75,7 +85,7 @@ include 'includes/header.php';
                 </div>
 
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             What safety measures should be taken when handling your chemicals?
@@ -99,13 +109,13 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <div class="p-8 border-t border-b border-gray-200 bg-gray-50">
+            <div class="p-8 border-t border-b border-gray-200 bg-gradient-to-r from-green-50 to-blue-50">
                 <h2 class="text-2xl font-bold text-gray-900">Ordering & Delivery</h2>
             </div>
 
             <div class="divide-y divide-gray-200">
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             What are your minimum order quantities?
@@ -126,7 +136,7 @@ include 'includes/header.php';
                 </div>
 
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             Do you offer emergency delivery services?
@@ -147,7 +157,7 @@ include 'includes/header.php';
                 </div>
 
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             What is your return policy for chemical products?
@@ -168,13 +178,13 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <div class="p-8 border-t border-b border-gray-200 bg-gray-50">
+            <div class="p-8 border-t border-b border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50">
                 <h2 class="text-2xl font-bold text-gray-900">Technical Support</h2>
             </div>
 
             <div class="divide-y divide-gray-200">
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             Do you provide on-site technical support?
@@ -196,7 +206,7 @@ include 'includes/header.php';
                 </div>
 
                 <!-- FAQ Item -->
-                <div class="p-8">
+                <div class="p-8 faq-item">
                     <button class="faq-toggle w-full flex justify-between items-center text-left group" aria-expanded="false">
                         <h3 class="text-lg font-bold text-gray-900 group-hover:text-brand-600 transition-colors">
                             How often should we test our water when using your chemicals?
@@ -238,16 +248,54 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <div class="p-8 bg-gray-50 text-center">
+            <div class="p-8 bg-gradient-to-r from-brand-50 to-blue-50 text-center border-t border-gray-200">
                 <h3 class="text-xl font-bold text-gray-900 mb-4">Still have questions?</h3>
                 <p class="text-gray-700 mb-6">Our water treatment experts are ready to help you find the right solutions.</p>
-                <a href="contact.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-brand-600 hover:bg-brand-700">
+                <a href="contact.html" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-lg text-white bg-brand-600 hover:bg-brand-700 transition-all hover:shadow-xl">
                     Contact Our Team
                     <i data-feather="arrow-right" class="ml-2"></i>
                 </a>
             </div>
         </div>
     </main>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // FAQ Accordion Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqToggles = document.querySelectorAll('.faq-toggle');
+            
+            faqToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other FAQ items
+                    faqToggles.forEach(otherToggle => {
+                        if (otherToggle !== this) {
+                            otherToggle.setAttribute('aria-expanded', 'false');
+                            const otherContent = otherToggle.nextElementSibling;
+                            otherContent.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current FAQ item
+                    if (isExpanded) {
+                        this.setAttribute('aria-expanded', 'false');
+                        content.classList.remove('active');
+                    } else {
+                        this.setAttribute('aria-expanded', 'true');
+                        content.classList.add('active');
+                    }
+                    
+                    // Re-initialize Feather icons for the chevron rotation
+                    feather.replace();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 <?php include 'includes/footer.php'; ?>
