@@ -66,7 +66,7 @@ include 'includes/header.php';
 
                         <div>
                             <button type="submit" id="submitBtn" class="btn-primary w-full md:w-auto">
-                                <span id="btnText">Send Message</span>
+                                <span id="btnText" class="inline-flex items-center justify-center px-8 py-4 bg-brand-500 text-white font-semibold rounded-lg shadow-2xl hover:bg-brand-600 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 text-center">Send Message</span>
                             </button>
                         </div>
                     </form>
@@ -181,10 +181,9 @@ contactForm.addEventListener('submit', async (event) => {
     
     // Prepare form data
     const formData = new FormData(event.target);
-    formData.append("access_key", "ee2a13d2-c198-4c6f-95b6-826790c23996");
     
     try {
-        const response = await fetch("https://api.web3forms.com/submit", {
+        const response = await fetch("process_contact.php", {
             method: "POST",
             body: formData
         });

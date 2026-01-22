@@ -561,4 +561,106 @@ function update_checkout_status($id, $status, $notes = '') {
         return ['success' => false, 'message' => 'Error updating status: ' . $error];
     }
 }
+
+// ==================== CONTACT FUNCTIONS ====================
+
+/**
+ * Get all contacts with optional status filter
+ */
+function get_all_contacts($status_filter = null) {
+    $conn = getDatabaseConnection();
+    if (!$conn) return [];
+    
+    $sql = "SELECT * FROM contacts";
+    
+    if ($status_filter && in_array($status_filter, ['pending', 'resolved'])) {
+        $sql .= " WHERE status = '" . $conn->real_escape_string($status_filter) . "'";
+    }
+    
+    $sql .= " ORDER BY created_at DESC";
+    
+    $result = $conn->query($sql);
+    $contacts = [];
+    
+    while ($row = $result->fetch_assoc()) {
+        $contacts[] = $row;
+    }
+    
+    $conn->close();
+    
+    return $contacts;
+}
+
+/**
+ * Get contact statistics
+ */
+function get_contact_stats() {
+    $conn = getDatabaseConnection();
+    if (!$conn) return ['total' => 0, 'pending' => 0, 'resolved' => 0];
+    
+    $stats = ['total' => 0, 'pending' => 0, 'resolved' => 0];
+    
+    // Get total count
+    $result = $conn->query("SELECT COUNT(*) as count FROM contacts");
+    $stats['total'] = $result->fetch_assoc()['count'];
+    
+    // Get pending count
+    $result = $conn->query("SELECT COUNT(*) as count FROM contacts WHERE status = 'pending'");
+    $stats['pending'] = $result->fetch_assoc()['count'];
+    
+    // Get resolved count
+    $result = $conn->query("SELECT COUNT(*) as count FROM contacts WHERE status = 'resolved'");
+    $stats['resolved'] = $result->fetch_assoc()['count'];
+    
+    $conn->close();
+    
+    return $stats;
+}
+
+/**
+ * Get contact by ID
+ */
+function get_contact_by_id($id) {
+    $conn = getDatabaseConnection();
+    if (!$conn) return null;
+    
+    $stmt = $conn->prepare("SELECT * FROM contacts WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $contact = $result->fetch_assoc();
+    
+    $stmt->close();
+    $conn->close();
+    
+    return $contact;
+}
+
+/**
+ * Update contact status
+ */
+function update_contact_status($id, $status) {
+    $conn = getDatabaseConnection();
+    if (!$conn) return ['success' => false, 'message' => 'Database connection failed'];
+    
+    // Validate status
+    if (!in_array($status, ['pending', 'resolved'])) {
+        $conn->close();
+        return ['success' => false, 'message' => 'Invalid status'];
+    }
+    
+    $stmt = $conn->prepare("UPDATE contacts SET status = ? WHERE id = ?");
+    $stmt->bind_param("si", $status, $id);
+    
+    if ($stmt->execute()) {
+        $stmt->close();
+        $conn->close();
+        return ['success' => true, 'message' => 'Contact status updated successfully'];
+    } else {
+        $error = $stmt->error;
+        $stmt->close();
+        $conn->close();
+        return ['success' => false, 'message' => 'Error updating status: ' . $error];
+    }
+}
 ?>

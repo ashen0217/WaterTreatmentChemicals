@@ -27,9 +27,7 @@ if ($conn) {
                 <h4 class="text-white font-semibold mb-4">Quick Links</h4>
                 <ul class="space-y-2 text-sm">
                     <li><a href="contact.php" class="hover:text-brand-400 transition-colors">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-brand-400 transition-colors">Safety Data Sheets (SDS)</a></li>
-                    <li><a href="#" class="hover:text-brand-400 transition-colors">Technical Support</a></li>
-                    <li><a href="#" class="hover:text-brand-400 transition-colors">Shipping Policy</a></li>
+                    <li><a href="contact.php" class="hover:text-brand-400 transition-colors">Technical Support</a></li>
                     <li><a href="./FAQ's.php" class="hover:text-brand-400 transition-colors">FAQ's</a></li>
                     <li><a href="./privacyPolicy.php" class="hover:text-brand-400 transition-colors">Privacy Policy</a></li>
                 </ul>
