@@ -1,39 +1,262 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   3D EFFECTS & TRANSFORMS
+   ======================================== */
+
 @layer components {
+
+    /* Button Styles with 3D Effects */
     .btn-primary {
-        @apply px-6 py-3 bg-brand-600 text-white font-medium rounded-lg shadow-md hover:bg-brand-700 transition-colors;
+        @apply px-6 py-3 bg-brand-500 text-white font-medium rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300;
+        transform: translateY(0);
     }
+
+    .btn-primary:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 20px 25px -5px rgba(44, 176, 145, 0.3), 0 10px 10px -5px rgba(44, 176, 145, 0.2);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0) scale(0.98);
+    }
+
     .btn-secondary {
-        @apply px-6 py-3 bg-white text-brand-600 border border-brand-600 font-medium rounded-lg shadow-sm hover:bg-brand-50 transition-colors;
+        @apply px-6 py-3 bg-white text-brand-600 border-2 border-brand-500 font-medium rounded-lg shadow-md hover:shadow-xl transition-all duration-300;
+        transform: translateY(0);
     }
+
+    .btn-secondary:hover {
+        @apply bg-brand-50;
+        transform: translateY(-2px);
+    }
+
+    /* 3D Card Styles */
     .card {
-        @apply bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow;
+        @apply bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300;
+        transform: translateY(0) rotateX(0deg);
+        transform-style: preserve-3d;
     }
+
+    .card:hover {
+        @apply shadow-2xl;
+        transform: translateY(-8px) rotateX(2deg);
+        box-shadow: 0 25px 50px -12px rgba(44, 176, 145, 0.25);
+    }
+
+    /* 3D Card with Tilt Effect */
+    .card-3d {
+        @apply bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
+
+    .card-3d:hover {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+        box-shadow:
+            0 30px 60px -15px rgba(44, 176, 145, 0.3),
+            0 15px 25px -10px rgba(44, 176, 145, 0.2),
+            0 5px 15px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Glassmorphism Effect */
+    .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-dark {
+        background: rgba(44, 176, 145, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(44, 176, 145, 0.2);
+    }
+
+    /* Section Titles */
     .section-title {
         @apply text-3xl font-extrabold text-gray-900 mb-4;
     }
+
     .section-subtitle {
         @apply text-lg text-gray-500 mb-8;
     }
 }
 
+/* ========================================
+   BODY & GLOBAL STYLES
+   ======================================== */
+
 body {
     @apply font-sans text-gray-800 bg-gray-50;
 }
 
-/* Hero gradient backgrounds */
+/* ========================================
+   HERO & GRADIENT BACKGROUNDS
+   ======================================== */
+
 .hero-gradient {
-    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    background: linear-gradient(135deg, #1a6a58 0%, #2CB091 50%, #238d75 100%);
     position: relative;
+    overflow: hidden;
 }
 
-/* FAQ accordion animations */
+.hero-gradient::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(61, 213, 184, 0.3) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Gradient Overlays */
+.gradient-overlay {
+    background: linear-gradient(135deg, rgba(44, 176, 145, 0.9) 0%, rgba(35, 141, 117, 0.95) 100%);
+}
+
+/* ========================================
+   ANIMATIONS & KEYFRAMES
+   ======================================== */
+
+/* Floating Animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse 3D Animation */
+@keyframes pulse3d {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px -5px rgba(44, 176, 145, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 20px 40px -10px rgba(44, 176, 145, 0.4);
+    }
+}
+
+.animate-pulse-3d {
+    animation: pulse3d 2s ease-in-out infinite;
+}
+
+/* Fade In Up */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Slide In Left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+}
+
+/* Slide In Right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+}
+
+/* Scale In */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+}
+
+/* Rotate In */
+@keyframes rotateIn {
+    from {
+        opacity: 0;
+        transform: rotate(-10deg) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+.animate-rotate-in {
+    animation: rotateIn 0.5s ease-out forwards;
+}
+
+/* ========================================
+   FAQ ACCORDION ANIMATIONS
+   ======================================== */
+
 .faq-toggle {
-    @apply transition-all duration-200 ease-out;
+    @apply transition-all duration-300 ease-out;
+    transform: translateY(0);
+}
+
+.faq-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 176, 145, 0.15);
 }
 
 .faq-toggle[aria-expanded="true"] i {
@@ -43,26 +266,34 @@ body {
 .faq-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding 0.4s ease-out;
     opacity: 0;
 }
 
 .faq-content.active {
     max-height: 2000px;
     opacity: 1;
-    transition: max-height 0.5s ease-in, opacity 0.4s ease-in;
+    transition: max-height 0.6s ease-in, opacity 0.5s ease-in, padding 0.4s ease-in;
 }
 
-/* Hover effects for info cards */
+/* ========================================
+   HOVER EFFECTS FOR INFO CARDS
+   ======================================== */
+
 .info-card {
     @apply transition-all duration-300 ease-in-out;
+    transform: translateY(0) scale(1);
 }
 
 .info-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 30px -10px rgba(44, 176, 145, 0.3);
 }
 
-/* Section headers with gradient accents */
+/* ========================================
+   SECTION HEADERS WITH GRADIENT ACCENTS
+   ======================================== */
+
 .section-header-accent {
     @apply relative;
 }
@@ -73,19 +304,30 @@ body {
     bottom: -8px;
     left: 0;
     width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+    height: 4px;
+    background: linear-gradient(90deg, #2CB091 0%, #3dd5b8 100%);
     border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(44, 176, 145, 0.4);
 }
 
-/* FAQ item hover effect */
+/* ========================================
+   FAQ ITEM HOVER EFFECT
+   ======================================== */
+
 .faq-item {
-    @apply transition-all duration-200 ease-out;
+    @apply transition-all duration-300 ease-out;
+    transform: translateX(0);
 }
 
 .faq-item:hover {
-    @apply bg-gray-50;
+    @apply bg-brand-50;
+    transform: translateX(5px);
+    box-shadow: -4px 0 0 0 #2CB091;
 }
+
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
 
 ::-webkit-scrollbar {
     @apply w-2 h-2;
@@ -96,26 +338,183 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-brand-600 rounded-full hover:bg-brand-700;
+    @apply rounded-full;
+    background: linear-gradient(180deg, #2CB091 0%, #238d75 100%);
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.5; }
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #3dd5b8 0%, #2CB091 100%);
 }
 
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/* ========================================
+   PROCESS FLOW STYLING
+   ======================================== */
+
+.process-step {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0) scale(1);
 }
+
+.process-step:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow:
+        0 20px 40px -15px rgba(44, 176, 145, 0.3),
+        0 10px 20px -10px rgba(44, 176, 145, 0.2);
+}
+
+.process-step.active {
+    border-color: #2CB091;
+    background: linear-gradient(135deg, #e6f9f4 0%, #ccf3e9 100%);
+    box-shadow:
+        0 15px 35px -10px rgba(44, 176, 145, 0.4),
+        inset 0 2px 4px rgba(44, 176, 145, 0.1);
+}
+
+/* ========================================
+   CUSTOM SCROLL FOR CATALOG
+   ======================================== */
+
+.custom-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #2CB091 0%, #238d75 100%);
+    border-radius: 4px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #3dd5b8 0%, #2CB091 100%);
+}
+
+/* ========================================
+   CHART CONTAINER STYLES
+   ======================================== */
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    max-height: 400px;
+}
+
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
+}
+
+/* ========================================
+   STAGGER ANIMATION DELAYS
+   ======================================== */
+
+.stagger-1 {
+    animation-delay: 0.1s;
+}
+
+.stagger-2 {
+    animation-delay: 0.2s;
+}
+
+.stagger-3 {
+    animation-delay: 0.3s;
+}
+
+.stagger-4 {
+    animation-delay: 0.4s;
+}
+
+.stagger-5 {
+    animation-delay: 0.5s;
+}
+
+.stagger-6 {
+    animation-delay: 0.6s;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
 
 @media print {
     .no-print {
         @apply hidden;
     }
+
     body {
         @apply bg-white text-black text-sm;
     }
+
     a {
         @apply no-underline text-black;
     }
+
+    .card,
+    .card-3d {
+        box-shadow: none !important;
+        transform: none !important;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Shadow Depths */
+.shadow-3d-sm {
+    box-shadow:
+        0 4px 6px -1px rgba(44, 176, 145, 0.1),
+        0 2px 4px -1px rgba(44, 176, 145, 0.06);
+}
+
+.shadow-3d {
+    box-shadow:
+        0 10px 15px -3px rgba(44, 176, 145, 0.2),
+        0 4px 6px -2px rgba(44, 176, 145, 0.1);
+}
+
+.shadow-3d-lg {
+    box-shadow:
+        0 20px 25px -5px rgba(44, 176, 145, 0.2),
+        0 10px 10px -5px rgba(44, 176, 145, 0.1);
+}
+
+.shadow-3d-xl {
+    box-shadow:
+        0 25px 50px -12px rgba(44, 176, 145, 0.25),
+        0 15px 30px -15px rgba(44, 176, 145, 0.2);
+}
+
+/* Perspective Container */
+.perspective-container {
+    perspective: 1000px;
+    perspective-origin: center;
+}
+
+/* Transform Utilities */
+.transform-3d {
+    transform-style: preserve-3d;
+}
+
+/* Hover Lift */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -10px rgba(44, 176, 145, 0.3);
+}
+
+/* Hover Tilt */
+.hover-tilt:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateY(-5px);
 }

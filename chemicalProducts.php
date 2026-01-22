@@ -6,25 +6,25 @@ include 'includes/header.php';
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- SECTION 2: Product Catalog (Grid) -->
-    <section id="product-catalog" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 min-h-[600px]">
-        <div class="p-8 border-b border-gray-200 bg-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
+    <section id="product-catalog" class="bg-white rounded-2xl shadow-3d-xl overflow-hidden border border-gray-100 min-h-[600px] animate-fade-in-up">
+        <div class="p-8 border-b border-gray-200 bg-gradient-to-br from-gray-50 to-brand-50 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
-                <h3 class="text-2xl font-bold text-gray-900">Chemical Inventory</h3>
+                <h3 class="section-title mb-2">Chemical Inventory</h3>
                 <p class="text-sm text-gray-500">High-purity solutions for industrial and municipal use.</p>
                 <div id="filter-display" class="mt-2 hidden">
-                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-100 text-brand-800">
+                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-100 text-brand-700 shadow-3d-sm">
                         Filtered by: <span id="current-filter-name" class="ml-1 font-bold"></span>
                         <button onclick="clearFilter()" class="ml-2 text-brand-600 hover:text-brand-800">×</button>
                     </span>
                 </div>
             </div>
             <div class="flex gap-2">
-                <input type="text" id="search-input" placeholder="Search chemicals..." class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 outline-none w-full md:w-64">
+                <input type="text" id="search-input" placeholder="Search chemicals..." class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 outline-none w-full md:w-64 transition-all duration-300 focus:shadow-3d-sm">
             </div>
         </div>
 
         <!-- Dynamic Product Grid -->
-        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8 perspective-container">
             <!-- JS will populate this -->
             <div class="col-span-full text-center text-gray-400 py-12">Loading inventory...</div>
         </div>
@@ -82,13 +82,13 @@ include 'includes/header.php';
         filtered.forEach(product => {
             const inCart = cart.includes(product.id);
             const card = document.createElement('div');
-            card.className = "bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-200 flex flex-col h-full";
+            card.className = "card-3d bg-white flex flex-col h-full group animate-scale-in";
             
-            // Determine Badge Color
+            // Determine Badge Color - using new greenish-blue theme
             let badgeColor = "bg-gray-100 text-gray-800";
-            if(product.category === "Coagulation") badgeColor = "bg-blue-100 text-blue-800";
-            if(product.category === "Disinfection") badgeColor = "bg-green-100 text-green-800";
-            if(product.category === "pH Control") badgeColor = "bg-purple-100 text-purple-800";
+            if(product.category === "Coagulation") badgeColor = "bg-brand-100 text-brand-700";
+            if(product.category === "Disinfection") badgeColor = "bg-green-100 text-green-700";
+            if(product.category === "pH Control") badgeColor = "bg-purple-100 text-purple-700";
 
             card.innerHTML = `
                 <div class="p-6 flex-1">
@@ -98,7 +98,7 @@ include 'includes/header.php';
                         </span>
                         <span class="text-xs text-gray-400 font-mono">${product.formula}</span>
                     </div>
-                    <h4 class="text-xl font-bold text-gray-900 mb-2">${product.name}</h4>
+                    <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-500 transition-colors">${product.name}</h4>
                     <p class="text-sm text-gray-500 mb-4 line-clamp-3">${product.desc}</p>
                     
                     <div class="space-y-2 mb-4">
@@ -113,7 +113,7 @@ include 'includes/header.php';
                     </div>
                 </div>
                 <div class="p-6 pt-0 mt-auto border-t border-gray-100">
-                    <button onclick="toggleCart(${product.id})" class="w-full mt-4 flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${inCart ? 'bg-green-600 hover:bg-green-700' : 'bg-brand-600 hover:bg-brand-700'} transition-colors">
+                    <button onclick="toggleCart(${product.id})" class="w-full mt-4 flex justify-center items-center px-4 py-3 border border-transparent rounded-lg shadow-lg text-sm font-medium text-white transition-all duration-300 ${inCart ? 'bg-green-600 hover:bg-green-700' : 'bg-brand-500 hover:bg-brand-600'} hover:shadow-xl hover:-translate-y-1">
                         ${inCart ? 'In Cart ✓' : 'Add to Cart'}
                     </button>
                 </div>

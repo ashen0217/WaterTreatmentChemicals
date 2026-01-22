@@ -11,17 +11,17 @@ require_once 'includes/header.php';
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page Header -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
+    <div class="mb-8 animate-fade-in-up">
+        <h1 class="section-title mb-2">Shopping Cart</h1>
         <p class="text-gray-600">Review and manage your items before checkout</p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Cart Items -->
         <div class="lg:col-span-2">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div class="card-3d bg-white animate-slide-in-left">
                 <!-- Cart Header -->
-                <div class="p-6 border-b border-gray-200 bg-gray-50">
+                <div class="p-6 border-b border-gray-200 bg-gradient-to-br from-gray-50 to-brand-50">
                     <h2 class="text-xl font-bold text-gray-900">
                         Cart Items (<span id="cart-item-count">0</span>)
                     </h2>
@@ -46,7 +46,7 @@ require_once 'includes/header.php';
                     </svg>
                     <p class="text-lg font-medium text-gray-900 mb-2">Your cart is empty</p>
                     <p class="text-sm text-gray-500 mb-6">Add some chemicals to get started</p>
-                    <a href="chemicalProducts.php" class="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-brand-600 hover:bg-brand-700 transition-colors">
+                    <a href="chemicalProducts.php" class="btn-primary inline-flex items-center">
                         Browse Products
                     </a>
                 </div>
@@ -55,7 +55,7 @@ require_once 'includes/header.php';
 
         <!-- Cart Summary -->
         <div class="lg:col-span-1">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-20">
+            <div class="card-3d bg-white p-6 sticky top-20 animate-slide-in-right">
                 <h2 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
                 
                 <div class="space-y-4 mb-6">
@@ -70,21 +70,21 @@ require_once 'includes/header.php';
                         id="checkout-btn"
                         onclick="proceedToCheckout()"
                         disabled
-                        class="w-full bg-brand-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-brand-700 transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Proceed to Checkout
                     </button>
                     
                     <a 
                         href="chemicalProducts.php"
-                        class="w-full block text-center bg-gray-100 text-gray-700 py-3 px-6 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
+                        class="btn-secondary w-full block text-center"
                     >
                         Continue Shopping
                     </a>
                 </div>
 
-                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-sm text-blue-800">
+                <div class="mt-6 p-4 bg-brand-50 rounded-lg border border-brand-100">
+                    <p class="text-sm text-brand-700">
                         <strong>Note:</strong> A sales representative will contact you within 24 hours with pricing and delivery details.
                     </p>
                 </div>
@@ -137,14 +137,14 @@ require_once 'includes/header.php';
             const product = globalProducts.find(p => p.id == id);
             if (!product) return;
 
-            // Determine badge color
+            // Determine badge color - using new greenish-blue theme
             let badgeColor = "bg-gray-100 text-gray-800";
-            if(product.category === "Coagulation") badgeColor = "bg-blue-100 text-blue-800";
-            if(product.category === "Disinfection") badgeColor = "bg-green-100 text-green-800";
-            if(product.category === "pH Control") badgeColor = "bg-purple-100 text-purple-800";
+            if(product.category === "Coagulation") badgeColor = "bg-brand-100 text-brand-700";
+            if(product.category === "Disinfection") badgeColor = "bg-green-100 text-green-700";
+            if(product.category === "pH Control") badgeColor = "bg-purple-100 text-purple-700";
 
             const itemDiv = document.createElement('div');
-            itemDiv.className = 'p-6 hover:bg-gray-50 transition-colors';
+            itemDiv.className = 'p-6 hover:bg-gray-50 transition-all duration-300 hover:shadow-3d-sm';
             itemDiv.innerHTML = `
                 <div class="flex items-start gap-4">
                     <div class="flex-1">
@@ -157,7 +157,7 @@ require_once 'includes/header.php';
                             </div>
                             <button 
                                 onclick="removeFromCart(${product.id})"
-                                class="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-lg"
+                                class="text-red-500 hover:text-red-700 transition-colors p-2 hover:bg-red-50 rounded-lg transform hover:scale-110 duration-200"
                                 title="Remove from cart"
                             >
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

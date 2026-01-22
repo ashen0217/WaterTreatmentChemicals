@@ -21,6 +21,8 @@ function isActive($page) {
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS with 3D Effects and Animations -->
+    <link rel="stylesheet" href="style.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -31,15 +33,21 @@ function isActive($page) {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9', // Sky blue
-                            600: '#0284c7',
-                            800: '#075985',
-                            900: '#0c4a6e',
+                            50: '#e6f9f4',
+                            100: '#ccf3e9',
+                            200: '#99e7d3',
+                            300: '#66dbbd',
+                            400: '#33cfa7',
+                            500: '#2CB091', // Primary greenish-blue
+                            600: '#238d75',
+                            700: '#1a6a58',
+                            800: '#12463a',
+                            900: '#09231d',
                         },
                         accent: {
-                            500: '#14b8a6', // Teal
+                            400: '#3dd5b8',
+                            500: '#2CB091', // Matching primary
+                            600: '#27a082',
                         }
                     },
                     fontFamily: {

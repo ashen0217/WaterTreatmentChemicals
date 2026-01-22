@@ -10,18 +10,19 @@ unset($_SESSION['login_error'], $_SESSION['signup_success'], $_SESSION['login_su
 
 <!-- Main Content -->
 <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative min-h-[calc(100vh-136px)]">
-    <!-- Decorative Background Element -->
+    <!-- Decorative Background Element with 3D Animation -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
-            <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-500 rounded-full mix-blend-multiply filter blur-3xl opacity-5"></div>
-            <div class="absolute top-1/2 left-0 w-64 h-64 bg-accent-500 rounded-full mix-blend-multiply filter blur-3xl opacity-5"></div>
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
+            <div class="absolute top-1/2 left-0 w-64 h-64 bg-accent-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-3d"></div>
+            <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-brand-300 rounded-full mix-blend-multiply filter blur-3xl opacity-5 animate-float"></div>
     </div>
 
-    <div class="max-w-md w-full space-y-8 relative z-10 bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
+    <div class="max-w-md w-full space-y-8 relative z-10 card-3d bg-white p-10 animate-scale-in">
         <div class="text-center">
-            <div class="mx-auto h-16 w-16 bg-brand-100 rounded-full flex items-center justify-center mb-4">
+            <div class="mx-auto h-16 w-16 bg-brand-100 rounded-full flex items-center justify-center mb-4 shadow-3d animate-pulse-3d">
                 <span class="text-3xl">🔐</span>
             </div>
-            <h2 class="mt-2 text-3xl font-extrabold text-gray-900">Welcome Back</h2>
+            <h2 class="mt-2 section-title">Welcome Back</h2>
             <p class="mt-2 text-sm text-gray-600">
                 Sign in to access your dashboard
             </p>
@@ -54,11 +55,11 @@ unset($_SESSION['login_error'], $_SESSION['signup_success'], $_SESSION['login_su
             <div class="rounded-md shadow-sm -space-y-px">
                 <div class="mb-4">
                     <label for="email-address" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-                    <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 focus:z-10 sm:text-sm" placeholder="name@company.com">
+                    <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 focus:z-10 sm:text-sm transition-all duration-300 focus:shadow-3d-sm" placeholder="name@company.com">
                 </div>
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 focus:z-10 sm:text-sm" placeholder="••••••••">
+                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 focus:z-10 sm:text-sm transition-all duration-300 focus:shadow-3d-sm" placeholder="••••••••">
                 </div>
             </div>
 
@@ -78,9 +79,9 @@ unset($_SESSION['login_error'], $_SESSION['signup_success'], $_SESSION['login_su
             </div>
 
             <div>
-                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors shadow-lg">
+                <button type="submit" class="btn-primary group relative w-full flex justify-center">
                     <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <svg class="h-5 w-5 text-brand-500 group-hover:text-brand-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <svg class="h-5 w-5 text-white opacity-75 group-hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                         </svg>
                     </span>

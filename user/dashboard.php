@@ -35,6 +35,8 @@ function isActive($page) {
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS with 3D Effects and Animations -->
+    <link rel="stylesheet" href="../style.css">
     
     <!-- Tailwind Config -->
     <script>
@@ -43,16 +45,21 @@ function isActive($page) {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
+                            50: '#e6f9f4',
+                            100: '#ccf3e9',
+                            200: '#99e7d3',
+                            300: '#66dbbd',
+                            400: '#33cfa7',
+                            500: '#24C7A0',
+                            600: '#1da082',
+                            700: '#167963',
+                            800: '#0f5245',
+                            900: '#082b26',
                         },
                         accent: {
-                            500: '#14b8a6',
+                            400: '#2dd5b8',
+                            500: '#24C7A0',
+                            600: '#1da082',
                         }
                     },
                     fontFamily: {
@@ -151,7 +158,7 @@ function isActive($page) {
     <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <!-- Page Header -->
-            <div class="mb-8">
+            <div class="mb-8 animate-fade-in-up">
                 <h1 class="text-3xl font-extrabold text-gray-900">Welcome, <?php echo htmlspecialchars($user['full_name']); ?>!</h1>
                 <p class="mt-2 text-gray-600">Manage your account and view your quote requests</p>
             </div>
@@ -182,14 +189,14 @@ function isActive($page) {
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Profile Card -->
                 <div class="lg:col-span-2">
-                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-                        <div class="bg-gradient-to-r from-brand-600 to-brand-700 px-6 py-8">
+                    <div class="card-3d bg-white overflow-hidden animate-slide-in-left">
+                        <div class="bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-8">
                             <div class="flex items-center">
-                                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-                                    <span class="text-4xl text-brand-600 font-bold"><?php echo strtoupper(substr($user['full_name'], 0, 1)); ?></span>
+                                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-3d animate-pulse-3d">
+                                    <span class="text-4xl text-brand-500 font-bold"><?php echo strtoupper(substr($user['full_name'], 0, 1)); ?></span>
                                 </div>
                                 <div class="ml-6">
-                                    <h2 class="text-2xl font-bold text-white"><?php echo htmlspecialchars($user['full_name']); ?></h2>
+                                    <h2 class="text-2xl font-bold text-white drop-shadow-md"><?php echo htmlspecialchars($user['full_name']); ?></h2>
                                     <p class="text-brand-100"><?php echo htmlspecialchars($user['email']); ?></p>
                                 </div>
                             </div>
@@ -202,17 +209,17 @@ function isActive($page) {
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                        <input type="text" id="full_name" name="full_name" value="<?php echo htmlspecialchars($user['full_name']); ?>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500">
+                                        <input type="text" id="full_name" name="full_name" value="<?php echo htmlspecialchars($user['full_name']); ?>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 transition-all duration-300 focus:shadow-3d-sm">
                                     </div>
                                     <div>
                                         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500">
+                                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 transition-all duration-300 focus:shadow-3d-sm">
                                     </div>
                                 </div>
 
                                 <div>
                                     <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500">
+                                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 transition-all duration-300 focus:shadow-3d-sm">
                                 </div>
 
                                 <div class="border-t border-gray-200 pt-4 mt-4">
@@ -220,17 +227,17 @@ function isActive($page) {
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                                            <input type="password" id="new_password" name="new_password" placeholder="Leave blank to keep current" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500">
+                                            <input type="password" id="new_password" name="new_password" placeholder="Leave blank to keep current" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 transition-all duration-300 focus:shadow-3d-sm">
                                         </div>
                                         <div>
                                             <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                                            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm new password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500">
+                                            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm new password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-brand-500 focus:border-brand-500 transition-all duration-300 focus:shadow-3d-sm">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="flex justify-end pt-4">
-                                    <button type="submit" class="px-6 py-3 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors shadow-lg">
+                                    <button type="submit" class="btn-primary">
                                         Update Profile
                                     </button>
                                 </div>
@@ -240,9 +247,9 @@ function isActive($page) {
                 </div>
 
                 <!-- Sidebar -->
-                <div class="space-y-6">
+                <div class="space-y-6 animate-slide-in-right">
                     <!-- Account Stats -->
-                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+                    <div class="card-3d bg-white p-6">
                         <h3 class="text-lg font-bold text-gray-900 mb-4">Account Information</h3>
                         <div class="space-y-3">
                             <div class="flex justify-between items-center py-2 border-b border-gray-100">
@@ -261,29 +268,29 @@ function isActive($page) {
                     </div>
 
                     <!-- Quick Actions -->
-                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+                    <div class="card-3d bg-white p-6">
                         <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
                         <div class="space-y-3">
-                            <a href="../chemicalProducts.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-colors text-center font-medium">
+                            <a href="../chemicalProducts.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
                                 Browse Products
                             </a>
-                            <a href="../dosageCalculate.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-colors text-center font-medium">
+                            <a href="../dosageCalculate.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
                                 Calculate Dosage
                             </a>
-                            <a href="../logout.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-colors text-center font-medium">
+                            <a href="../logout.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
                                 Logout
                             </a>
-                            <button onclick="toggleCartModal()" class="block w-full px-4 py-3 bg-accent-50 text-accent-700 rounded-lg hover:bg-accent-100 transition-colors text-center font-medium">
+                            <button onclick="toggleCartModal()" class="block w-full px-4 py-3 bg-accent-50 text-accent-700 rounded-lg hover:bg-accent-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
                                 View Quote Requests
                             </button>
                         </div>
                     </div>
 
                     <!-- Danger Zone -->
-                    <div class="bg-red-50 rounded-2xl border border-red-200 p-6">
+                    <div class="bg-red-50 rounded-2xl border border-red-200 p-6 shadow-3d">
                         <h3 class="text-lg font-bold text-red-900 mb-2">Danger Zone</h3>
                         <p class="text-sm text-red-700 mb-4">Once you delete your account, there is no going back. Please be certain.</p>
-                        <button onclick="confirmDelete()" class="w-full px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                        <button onclick="confirmDelete()" class="w-full px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                             Delete Account
                         </button>
                     </div>
