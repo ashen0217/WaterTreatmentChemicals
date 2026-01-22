@@ -247,7 +247,7 @@ function isActive($page) {
                 </div>
 
                 <!-- Sidebar -->
-                <div class="space-y-6 animate-slide-in-right">
+                <div class="space-y-6" style="position: relative; z-index: 20;">
                     <!-- Account Stats -->
                     <div class="card-3d bg-white p-6">
                         <h3 class="text-lg font-bold text-gray-900 mb-4">Account Information</h3>
@@ -268,19 +268,19 @@ function isActive($page) {
                     </div>
 
                     <!-- Quick Actions -->
-                    <div class="card-3d bg-white p-6">
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
                         <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
                         <div class="space-y-3">
-                            <a href="../chemicalProducts.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
+                            <a href="../chemicalProducts.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-colors text-center font-medium">
                                 Browse Products
                             </a>
-                            <a href="../dosageCalculate.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
+                            <a href="../dosageCalculate.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-colors text-center font-medium">
                                 Calculate Dosage
                             </a>
-                            <a href="../logout.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
+                            <a href="../logout.php" class="block w-full px-4 py-3 bg-brand-50 text-brand-700 rounded-lg hover:bg-brand-100 transition-colors text-center font-medium">
                                 Logout
                             </a>
-                            <button onclick="toggleCartModal()" class="block w-full px-4 py-3 bg-accent-50 text-accent-700 rounded-lg hover:bg-accent-100 transition-all duration-300 text-center font-medium hover:shadow-3d-sm transform hover:-translate-y-1">
+                            <button onclick="toggleCartModal()" class="block w-full px-4 py-3 bg-accent-50 text-accent-700 rounded-lg hover:bg-accent-100 transition-colors text-center font-medium">
                                 View Quote Requests
                             </button>
                         </div>

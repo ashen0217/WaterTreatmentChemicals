@@ -91,6 +91,19 @@ include 'includes/header.php';
             if(product.category === "pH Control") badgeColor = "bg-purple-100 text-purple-700";
 
             card.innerHTML = `
+                ${product.image_path ? `
+                    <div class="w-full h-48 overflow-hidden bg-gray-100">
+                        <img src="${product.image_path}" 
+                             alt="${product.name}" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                ` : `
+                    <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <svg class="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                `}
                 <div class="p-6 flex-1">
                     <div class="flex justify-between items-start mb-4">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeColor}">

@@ -170,6 +170,87 @@ function delete_user($id) {
 // ==================== PRODUCT FUNCTIONS ====================
 
 /**
+ * Handle product image upload
+ * Returns array with 'success' and 'path' or 'message'
+ */
+function handle_product_image_upload($file) {
+    // Check if file was uploaded
+    if (!isset($file) || $file['error'] === UPLOAD_ERR_NO_FILE) {
+        return ['success' => true, 'path' => null];
+    }
+    
+    // Check for upload errors
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return ['success' => false, 'message' => 'File upload error'];
+    }
+    
+    // Validate file type using multiple methods for reliability
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $allowed_mime_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    
+    // Get file extension
+    $file_extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    
+    // Check extension
+    if (!in_array($file_extension, $allowed_extensions)) {
+        return ['success' => false, 'message' => 'Invalid file extension: .' . $file_extension . '. Only JPG, PNG, GIF, and WebP are allowed'];
+    }
+    
+    // Verify it's actually an image using getimagesize (more reliable than mime_content_type)
+    $image_info = @getimagesize($file['tmp_name']);
+    if ($image_info === false) {
+        return ['success' => false, 'message' => 'Invalid image file. File is corrupted or not a valid image'];
+    }
+    
+    // Check MIME type from getimagesize
+    $detected_mime = $image_info['mime'];
+    if (!in_array($detected_mime, $allowed_mime_types)) {
+        return ['success' => false, 'message' => 'Invalid MIME type detected: ' . $detected_mime . '. Expected: image/jpeg, image/png, image/gif, or image/webp'];
+    }
+    
+    // Validate file size (5MB max)
+    $max_size = 5 * 1024 * 1024; // 5MB in bytes
+    if ($file['size'] > $max_size) {
+        return ['success' => false, 'message' => 'File size exceeds 5MB limit'];
+    }
+    
+    // Create upload directory if it doesn't exist
+    $upload_dir = __DIR__ . '/../../uploads/products/';
+    if (!file_exists($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+    
+    // Generate unique filename
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $filename = time() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
+    $upload_path = $upload_dir . $filename;
+    
+    // Move uploaded file
+    if (move_uploaded_file($file['tmp_name'], $upload_path)) {
+        return ['success' => true, 'path' => 'uploads/products/' . $filename];
+    } else {
+        return ['success' => false, 'message' => 'Failed to save uploaded file'];
+    }
+}
+
+/**
+ * Delete product image file
+ */
+function delete_product_image($image_path) {
+    if (empty($image_path)) {
+        return true;
+    }
+    
+    $file_path = __DIR__ . '/../../' . $image_path;
+    
+    if (file_exists($file_path)) {
+        return unlink($file_path);
+    }
+    
+    return true; // File doesn't exist, consider it deleted
+}
+
+/**
  * Get all products with optional filtering
  */
 function get_all_products($category = '', $search = '') {
@@ -228,14 +309,15 @@ function create_product($data) {
     $conn = getDatabaseConnection();
     if (!$conn) return ['success' => false, 'message' => 'Database connection failed'];
     
-    $stmt = $conn->prepare("INSERT INTO products (name, formula, category, form, purity, description, price_index, effectiveness) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssii", 
+    $stmt = $conn->prepare("INSERT INTO products (name, formula, category, form, purity, description, image_path, price_index, effectiveness) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssii", 
         $data['name'], 
         $data['formula'], 
         $data['category'], 
         $data['form'], 
         $data['purity'], 
-        $data['description'], 
+        $data['description'],
+        $data['image_path'], 
         $data['price_index'], 
         $data['effectiveness']
     );
@@ -260,14 +342,24 @@ function update_product($id, $data) {
     $conn = getDatabaseConnection();
     if (!$conn) return ['success' => false, 'message' => 'Database connection failed'];
     
-    $stmt = $conn->prepare("UPDATE products SET name = ?, formula = ?, category = ?, form = ?, purity = ?, description = ?, price_index = ?, effectiveness = ? WHERE id = ?");
-    $stmt->bind_param("ssssssiii", 
+    // If new image is provided, delete old image
+    if (isset($data['image_path']) && !empty($data['image_path'])) {
+        // Get current product to retrieve old image path
+        $old_product = get_product_by_id($id);
+        if ($old_product && !empty($old_product['image_path'])) {
+            delete_product_image($old_product['image_path']);
+        }
+    }
+    
+    $stmt = $conn->prepare("UPDATE products SET name = ?, formula = ?, category = ?, form = ?, purity = ?, description = ?, image_path = ?, price_index = ?, effectiveness = ? WHERE id = ?");
+    $stmt->bind_param("ssssssssii", 
         $data['name'], 
         $data['formula'], 
         $data['category'], 
         $data['form'], 
         $data['purity'], 
-        $data['description'], 
+        $data['description'],
+        $data['image_path'], 
         $data['price_index'], 
         $data['effectiveness'],
         $id
@@ -292,11 +384,19 @@ function delete_product($id) {
     $conn = getDatabaseConnection();
     if (!$conn) return ['success' => false, 'message' => 'Database connection failed'];
     
+    // Get product to retrieve image path before deletion
+    $product = get_product_by_id($id);
+    
     // Soft delete - mark as inactive
     $stmt = $conn->prepare("UPDATE products SET is_active = 0 WHERE id = ?");
     $stmt->bind_param("i", $id);
     
     if ($stmt->execute()) {
+        // Delete associated image file
+        if ($product && !empty($product['image_path'])) {
+            delete_product_image($product['image_path']);
+        }
+        
         $stmt->close();
         $conn->close();
         return ['success' => true, 'message' => 'Product deleted successfully'];

@@ -38,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'purity' => sanitize_input($_POST['purity'] ?? ''),
         'description' => sanitize_input($_POST['description'] ?? ''),
         'price_index' => intval($_POST['price_index'] ?? 1),
-        'effectiveness' => intval($_POST['effectiveness'] ?? 0)
+        'effectiveness' => intval($_POST['effectiveness'] ?? 0),
+        'image_path' => $product['image_path'] ?? null // Keep existing image by default
     ];
     
     // Validation
@@ -50,18 +51,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($data['effectiveness'] < 0 || $data['effectiveness'] > 100) {
         $error = 'Effectiveness must be between 0 and 100';
     } else {
-        // Create or update product
-        if ($product_id > 0) {
-            $result = update_product($product_id, $data);
-        } else {
-            $result = create_product($data);
+        // Handle image upload
+        if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+            $upload_result = handle_product_image_upload($_FILES['product_image']);
+            if ($upload_result['success']) {
+                $data['image_path'] = $upload_result['path'];
+            } else {
+                $error = $upload_result['message'];
+            }
+        } elseif (isset($_POST['remove_image']) && $_POST['remove_image'] === '1') {
+            // Remove image if checkbox is checked
+            $data['image_path'] = null;
         }
         
-        if ($result['success']) {
-            header("Location: products.php");
-            exit();
-        } else {
-            $error = $result['message'];
+        // Create or update product if no errors
+        if (empty($error)) {
+            if ($product_id > 0) {
+                $result = update_product($product_id, $data);
+            } else {
+                $result = create_product($data);
+            }
+            
+            if ($result['success']) {
+                header("Location: products.php");
+                exit();
+            } else {
+                $error = $result['message'];
+            }
         }
     }
 }
@@ -84,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         
-        <form method="POST" action="" class="space-y-6">
+        <form method="POST" action="" enctype="multipart/form-data" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
@@ -136,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="Stabilization" <?php echo ($product['category'] ?? $_POST['category'] ?? '') === 'Scale Inhibitor' ? 'selected' : ''; ?>>Scale Inhibitor</option>
                         <option value="Stabilization" <?php echo ($product['category'] ?? $_POST['category'] ?? '') === 'Scale Inhibitor/Dispersant' ? 'selected' : ''; ?>>Scale Inhibitor/Dispersant</option>
                         <option value="Dispersant" <?php echo ($product['category'] ?? $_POST['category'] ?? '') === 'Dispersant' ? 'selected' : ''; ?>>Dispersant</option>
-                        <option value="Dispersant" <?php echo ($product['category'] ?? $_POST['category'] ?? '') === 'Polymerization' ? 'selected' : ''; ?>>Polymerization</option>
+                        <option value="Polymerization" <?php echo ($product['category'] ?? $_POST['category'] ?? '') === 'Polymerization' ? 'selected' : ''; ?>>Polymerization</option>
                     </select>
                 </div>
                 
@@ -220,6 +236,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     placeholder="Detailed product description..."
                 ><?php echo htmlspecialchars($product['description'] ?? $_POST['description'] ?? ''); ?></textarea>
             </div>
+            
+            <!-- Product Image Upload -->
+            <div>
+                <label for="product_image" class="block text-sm font-medium text-gray-700 mb-2">
+                    Product Image
+                </label>
+                
+                <?php if ($product_id > 0 && !empty($product['image_path'])): ?>
+                    <!-- Show current image in edit mode -->
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2">Current Image:</p>
+                        <img src="../<?php echo htmlspecialchars($product['image_path']); ?>" 
+                             alt="Current product image" 
+                             class="w-32 h-32 object-cover rounded-lg border border-gray-300">
+                        <div class="mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="remove_image" value="1" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <span class="ml-2 text-sm text-gray-600">Remove current image</span>
+                            </label>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
+                <input 
+                    type="file" 
+                    id="product_image" 
+                    name="product_image" 
+                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    onchange="previewImage(this)"
+                >
+                <p class="text-xs text-gray-500 mt-1">Accepted formats: JPG, PNG, GIF, WebP (Max 5MB)</p>
+                
+                <!-- Image Preview -->
+                <div id="image-preview" class="mt-4 hidden">
+                    <p class="text-sm text-gray-600 mb-2">Preview:</p>
+                    <img id="preview-img" src="" alt="Image preview" class="w-32 h-32 object-cover rounded-lg border border-gray-300">
+                </div>
+            </div>
+            
+            <script>
+            function previewImage(input) {
+                const preview = document.getElementById('image-preview');
+                const previewImg = document.getElementById('preview-img');
+                
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                    
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.classList.add('hidden');
+                }
+            }
+            </script>
             
             <div class="flex gap-4 pt-4">
                 <button 

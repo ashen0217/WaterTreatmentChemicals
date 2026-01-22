@@ -5,7 +5,7 @@ $conn = getDatabaseConnection();
 $products_json = '[]';
 
 if ($conn) {
-    $result = $conn->query("SELECT id, name, formula, category, form, purity, description as `desc`, price_index, effectiveness FROM products WHERE is_active = 1 ORDER BY category, name");
+    $result = $conn->query("SELECT id, name, formula, category, form, purity, description as `desc`, price_index, effectiveness, image_path FROM products WHERE is_active = 1 ORDER BY category, name");
     $products_array = [];
     while ($row = $result->fetch_assoc()) {
         $products_array[] = $row;

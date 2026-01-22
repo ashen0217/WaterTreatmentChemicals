@@ -51,6 +51,7 @@
         @apply bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500;
         transform-style: preserve-3d;
         perspective: 1000px;
+        position: relative;
     }
 
     .card-3d:hover {
@@ -59,6 +60,14 @@
             0 30px 60px -15px rgba(44, 176, 145, 0.3),
             0 15px 25px -10px rgba(44, 176, 145, 0.2),
             0 5px 15px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Ensure all links and buttons inside cards are clickable */
+    .card-3d a,
+    .card-3d button {
+        position: relative;
+        z-index: 10;
+        pointer-events: auto;
     }
 
     /* Glassmorphism Effect */

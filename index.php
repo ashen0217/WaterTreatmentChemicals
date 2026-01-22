@@ -199,7 +199,7 @@
         if ($conn) {
             // Get 3 featured products (one from each major category)
             $result = $conn->query("
-                SELECT id, name, formula, category, form, purity, description as `desc`, price_index, effectiveness 
+                SELECT id, name, formula, category, form, purity, description as `desc`, price_index, effectiveness, image_path 
                 FROM products 
                 WHERE is_active = 1 
                 AND category IN ('Coagulation', 'Disinfection', 'pH Control')
@@ -234,6 +234,21 @@
                     $stagger = "stagger-" . ($index + 1);
                 ?>
                 <div class="card-3d bg-white flex flex-col h-full group animate-scale-in <?php echo $stagger; ?>">
+                    <!-- Product Image -->
+                    <?php if (!empty($product['image_path']) && file_exists(__DIR__ . '/' . $product['image_path'])): ?>
+                        <div class="w-full h-48 overflow-hidden bg-gray-100">
+                            <img src="<?php echo htmlspecialchars($product['image_path']); ?>" 
+                                 alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                    <?php else: ?>
+                        <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                            <svg class="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    <?php endif; ?>
+                    
                     <div class="p-6 flex-1">
                         <div class="flex justify-between items-start mb-4">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?php echo $badgeColor; ?>">
