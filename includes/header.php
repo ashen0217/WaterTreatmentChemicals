@@ -33,21 +33,21 @@ function isActive($page) {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#e6f9f4',
-                            100: '#ccf3e9',
-                            200: '#99e7d3',
-                            300: '#66dbbd',
-                            400: '#33cfa7',
-                            500: '#2CB091', // Primary greenish-blue
-                            600: '#238d75',
-                            700: '#1a6a58',
-                            800: '#12463a',
-                            900: '#09231d',
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#DC2626', // Primary dark red
+                            600: '#B91C1C',
+                            700: '#991B1B',
+                            800: '#7F1D1D',
+                            900: '#450a0a',
                         },
                         accent: {
-                            400: '#3dd5b8',
-                            500: '#2CB091', // Matching primary
-                            600: '#27a082',
+                            400: '#f87171',
+                            500: '#DC2626', // Matching primary
+                            600: '#B91C1C',
                         }
                     },
                     fontFamily: {
@@ -111,7 +111,7 @@ function isActive($page) {
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="index.php" class="flex-shrink-0 flex items-center gap-2">
-                        <span class="text-2xl sm:text-3xl text-brand-600 font-bold">HydroChem</span>
+                        <img src="assets/images/logo.jpeg" alt="HydroChem Pro" class="h-12 sm:h-14 w-auto object-contain">
                     </a>
                 </div>
                 <!-- Desktop Navigation -->

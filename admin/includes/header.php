@@ -39,7 +39,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="h-full flex flex-col">
                 <!-- Logo -->
                 <div class="p-6 border-b border-gray-200">
-                    <h1 class="text-2xl font-bold text-blue-600">HydroChem Pro</h1>
+                    <img src="../assets/images/logo.jpeg" alt="HydroChem Pro" class="h-12 w-auto object-contain mb-2">
                     <p class="text-sm text-gray-500">Admin Panel</p>
                 </div>
                 
@@ -86,6 +86,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                 Manage Products
                             </a>
                         </li>
+                        <li>
+                            <a href="admins.php" class="sidebar-link <?php echo $current_page === 'admins.php' || $current_page === 'admin_form.php' ? 'active' : ''; ?> flex items-center px-4 py-3 text-gray-700 rounded-lg border-l-4 border-transparent">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                                Manage Admins
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 
@@ -100,6 +108,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
                             <p class="text-xs text-gray-500"><?php echo htmlspecialchars($current_admin['email']); ?></p>
                         </div>
                     </div>
+                    <a href="admin_self_delete.php" class="flex items-center justify-center px-4 py-2 mb-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition text-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        Delete My Account
+                    </a>
                     <a href="logout.php" class="flex items-center justify-center px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>

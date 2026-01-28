@@ -83,7 +83,7 @@ function isActive($page) {
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="../index.php" class="flex-shrink-0 flex items-center gap-2">
-                        <span class="text-2xl sm:text-3xl text-brand-600 font-bold">HydroChem</span>
+                        <img src="../assets/images/logo.jpeg" alt="HydroChem Pro" class="h-12 sm:h-14 w-auto object-contain">
                     </a>
                 </div>
                 <!-- Desktop Navigation -->

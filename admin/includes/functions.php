@@ -663,4 +663,187 @@ function update_contact_status($id, $status) {
         return ['success' => false, 'message' => 'Error updating status: ' . $error];
     }
 }
-?>
+
+// ==================== ADMIN MANAGEMENT FUNCTIONS ====================
+
+/**
+ * Get all admin users with pagination
+ */
+function get_all_admins($page = 1, $per_page = 10, $search = '') {
+    $conn = getDatabaseConnection();
+    if (!$conn) return ['admins' => [], 'total' => 0];
+    
+    $offset = ($page - 1) * $per_page;
+    
+    // Build search condition
+    $search_condition = '';
+    if (!empty($search)) {
+        $search = $conn->real_escape_string($search);
+        $search_condition = " WHERE full_name LIKE '%$search%' OR email LIKE '%$search%'";
+    }
+    
+    // Get total count
+    $count_result = $conn->query("SELECT COUNT(*) as total FROM admin_users" . $search_condition);
+    $total = $count_result->fetch_assoc()['total'];
+    
+    // Get admins
+    $sql = "SELECT * FROM admin_users" . $search_condition . " ORDER BY created_at DESC LIMIT $per_page OFFSET $offset";
+    $result = $conn->query($sql);
+    
+    $admins = [];
+    while ($row = $result->fetch_assoc()) {
+        $admins[] = $row;
+    }
+    
+    $conn->close();
+    
+    return ['admins' => $admins, 'total' => $total];
+}
+
+/**
+ * Get admin by ID
+ */
+function get_admin_by_id($id) {
+    $conn = getDatabaseConnection();
+    if (!$conn) return null;
+    
+    $stmt = $conn->prepare("SELECT * FROM admin_users WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $admin = $result->fetch_assoc();
+    
+    $stmt->close();
+    $conn->close();
+    
+    return $admin;
+}
+
+/**
+ * Create new admin user
+ */
+function create_admin($data) {
+    $conn = getDatabaseConnection();
+    if (!$conn) return ['success' => false, 'message' => 'Database connection failed'];
+    
+    // Check if email already exists
+    $check_stmt = $conn->prepare("SELECT id FROM admin_users WHERE email = ?");
+    $check_stmt->bind_param("s", $data['email']);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result();
+    
+    if ($check_result->num_rows > 0) {
+        $check_stmt->close();
+        $conn->close();
+        return ['success' => false, 'message' => 'Email already exists'];
+    }
+    $check_stmt->close();
+    
+    // Hash password
+    $password_hash = password_hash($data['password'], PASSWORD_DEFAULT);
+    
+    // Insert admin
+    $stmt = $conn->prepare("INSERT INTO admin_users (full_name, email, password_hash) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $data['full_name'], $data['email'], $password_hash);
+    
+    if ($stmt->execute()) {
+        $admin_id = $stmt->insert_id;
+        $stmt->close();
+        $conn->close();
+        return ['success' => true, 'message' => 'Admin created successfully', 'admin_id' => $admin_id];
+    } else {
+        $error = $stmt->error;
+        $stmt->close();
+        $conn->close();
+        return ['success' => false, 'message' => 'Error creating admin: ' . $error];
+    }
+}
+
+/**
+ * Update admin user
+ */
+function update_admin($id, $data) {
+    $conn = getDatabaseConnection();
+    if (!$conn) return ['success' => false, 'message' => 'Database connection failed'];
+    
+    // Check if email already exists for a different admin
+    $check_stmt = $conn->prepare("SELECT id FROM admin_users WHERE email = ? AND id != ?");
+    $check_stmt->bind_param("si", $data['email'], $id);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result();
+    
+    if ($check_result->num_rows > 0) {
+        $check_stmt->close();
+        $conn->close();
+        return ['success' => false, 'message' => 'Email already exists'];
+    }
+    $check_stmt->close();
+    
+    // Update admin
+    if (!empty($data['password'])) {
+        // Update with password
+        $password_hash = password_hash($data['password'], PASSWORD_DEFAULT);
+        $stmt = $conn->prepare("UPDATE admin_users SET full_name = ?, email = ?, password_hash = ? WHERE id = ?");
+        $stmt->bind_param("sssi", $data['full_name'], $data['email'], $password_hash, $id);
+    } else {
+        // Update without password
+        $stmt = $conn->prepare("UPDATE admin_users SET full_name = ?, email = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $data['full_name'], $data['email'], $id);
+    }
+    
+    if ($stmt->execute()) {
+        $stmt->close();
+        $conn->close();
+        return ['success' => true, 'message' => 'Admin updated successfully'];
+    } else {
+        $error = $stmt->error;
+        $stmt->close();
+        $conn->close();
+        return ['success' => false, 'message' => 'Error updating admin: ' . $error];
+    }
+}
+
+/**
+ * Delete admin user
+ */
+function delete_admin($id) {
+    $conn = getDatabaseConnection();
+    if (!$conn) return ['success' => false, 'message' => 'Database connection failed'];
+    
+    // Check if this is the only admin
+    $count_result = $conn->query("SELECT COUNT(*) as total FROM admin_users");
+    $total = $count_result->fetch_assoc()['total'];
+    
+    if ($total <= 1) {
+        $conn->close();
+        return ['success' => false, 'message' => 'Cannot delete the only admin user'];
+    }
+    
+    $stmt = $conn->prepare("DELETE FROM admin_users WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    
+    if ($stmt->execute()) {
+        $stmt->close();
+        $conn->close();
+        return ['success' => true, 'message' => 'Admin deleted successfully'];
+    } else {
+        $error = $stmt->error;
+        $stmt->close();
+        $conn->close();
+        return ['success' => false, 'message' => 'Error deleting admin: ' . $error];
+    }
+}
+
+/**
+ * Count total admins
+ */
+function count_total_admins() {
+    $conn = getDatabaseConnection();
+    if (!$conn) return 0;
+    
+    $result = $conn->query("SELECT COUNT(*) as total FROM admin_users");
+    $count = $result->fetch_assoc()['total'];
+    
+    $conn->close();
+    return $count;
+}

@@ -160,4 +160,131 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+<script>
+// Form validation
+const form = document.querySelector('form');
+const fullNameInput = document.getElementById('full_name');
+const emailInput = document.getElementById('email');
+const phoneInput = document.getElementById('phone');
+const passwordInput = document.getElementById('password');
+
+// Real-time validation for full name
+fullNameInput.addEventListener('blur', function() {
+    const value = this.value.trim();
+    if (value.length < 2) {
+        showFieldError(this, 'Name must be at least 2 characters long');
+    } else if (!/^[a-zA-Z\s.'-]+$/.test(value)) {
+        showFieldError(this, 'Name can only contain letters, spaces, and common punctuation');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for email
+emailInput.addEventListener('blur', function() {
+    const value = this.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+        showFieldError(this, 'Please enter a valid email address');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for phone
+phoneInput.addEventListener('blur', function() {
+    const value = this.value.trim();
+    const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+    if (value.length < 8) {
+        showFieldError(this, 'Phone number must be at least 8 digits');
+    } else if (!phoneRegex.test(value)) {
+        showFieldError(this, 'Please enter a valid phone number');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for password
+passwordInput.addEventListener('input', function() {
+    const value = this.value;
+    if (value.length > 0 && value.length < 6) {
+        showFieldError(this, 'Password must be at least 6 characters');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Form submission validation
+form.addEventListener('submit', function(e) {
+    let isValid = true;
+    
+    // Validate full name
+    const fullName = fullNameInput.value.trim();
+    if (fullName.length < 2) {
+        showFieldError(fullNameInput, 'Name must be at least 2 characters long');
+        isValid = false;
+    } else if (!/^[a-zA-Z\s.'-]+$/.test(fullName)) {
+        showFieldError(fullNameInput, 'Name can only contain letters');
+        isValid = false;
+    }
+    
+    // Validate email
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showFieldError(emailInput, 'Please enter a valid email address');
+        isValid = false;
+    }
+    
+    // Validate phone
+    const phone = phoneInput.value.trim();
+    if (phone.length < 8) {
+        showFieldError(phoneInput, 'Phone number must be at least 8 digits');
+        isValid = false;
+    }
+    
+    // Validate password (only if provided for new users or editing)
+    const password = passwordInput.value;
+    const isNewUser = <?php echo $user_id == 0 ? 'true' : 'false'; ?>;
+    if (isNewUser && password.length === 0) {
+        showFieldError(passwordInput, 'Password is required for new users');
+        isValid = false;
+    } else if (password.length > 0 && password.length < 6) {
+        showFieldError(passwordInput, 'Password must be at least 6 characters');
+        isValid = false;
+    }
+    
+    if (!isValid) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+function showFieldError(field, message) {
+    // Remove any existing error
+    clearFieldError(field);
+    
+    // Add error styling
+    field.classList.add('border-red-500');
+    field.classList.remove('border-gray-300');
+    
+    // Create and add error message
+    const errorDiv = document.createElement('p');
+    errorDiv.className = 'text-red-500 text-xs mt-1 field-error';
+    errorDiv.textContent = message;
+    field.parentNode.appendChild(errorDiv);
+}
+
+function clearFieldError(field) {
+    field.classList.remove('border-red-500');
+    field.classList.add('border-gray-300');
+    
+    // Remove error message if exists
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+}
+</script>
+
 <?php include 'includes/footer.php'; ?>

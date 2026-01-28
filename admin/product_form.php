@@ -314,4 +314,207 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+<script>
+// Form validation
+const productForm = document.querySelector('form');
+const nameInput = document.getElementById('name');
+const formulaInput = document.getElementById('formula');
+const categorySelect = document.getElementById('category');
+const formInput = document.getElementById('form');
+const purityInput = document.getElementById('purity');
+const priceIndexInput = document.getElementById('price_index');
+const effectivenessInput = document.getElementById('effectiveness');
+const descriptionInput = document.getElementById('description');
+const imageInput = document.getElementById('product_image');
+
+// Real-time validation for product name
+nameInput.addEventListener('blur', function() {
+    const value = this.value.trim();
+    if (value.length < 3) {
+        showFieldError(this, 'Product name must be at least 3 characters long');
+    } else if (value.length > 200) {
+        showFieldError(this, 'Product name is too long (max 200 characters)');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for formula
+formulaInput.addEventListener('blur', function() {
+    const value = this.value.trim();
+    if (value.length < 1) {
+        showFieldError(this, 'Chemical formula is required');
+    } else if (value.length > 50) {
+        showFieldError(this, 'Formula is too long (max 50 characters)');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for category
+categorySelect.addEventListener('change', function() {
+    if (this.value === '') {
+        showFieldError(this, 'Please select a category');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for price index
+priceIndexInput.addEventListener('input', function() {
+    const value = parseInt(this.value);
+    if (isNaN(value) || value < 1 || value > 3) {
+        showFieldError(this, 'Price index must be between 1 and 3');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for effectiveness
+effectivenessInput.addEventListener('input', function() {
+    const value = parseInt(this.value);
+    if (isNaN(value) || value < 0 || value > 100) {
+        showFieldError(this, 'Effectiveness must be between 0 and 100');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Real-time validation for description
+descriptionInput.addEventListener('blur', function() {
+    const value = this.value.trim();
+    if (value.length < 10) {
+        showFieldError(this, 'Description must be at least 10 characters long');
+    } else if (value.length > 1000) {
+        showFieldError(this, 'Description is too long (max 1000 characters)');
+    } else {
+        clearFieldError(this);
+    }
+});
+
+// Image file validation
+imageInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+        const file = this.files[0];
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        
+        if (!validTypes.includes(file.type)) {
+            showFieldError(this, 'Invalid file type. Please upload JPG, PNG, GIF, or WebP');
+            this.value = '';
+            document.getElementById('image-preview').classList.add('hidden');
+        } else if (file.size > maxSize) {
+            showFieldError(this, 'File is too large. Maximum size is 5MB');
+            this.value = '';
+            document.getElementById('image-preview').classList.add('hidden');
+        } else {
+            clearFieldError(this);
+        }
+    }
+});
+
+// Form submission validation
+productForm.addEventListener('submit', function(e) {
+    let isValid = true;
+    
+    // Validate product name
+    const name = nameInput.value.trim();
+    if (name.length < 3) {
+        showFieldError(nameInput, 'Product name must be at least 3 characters');
+        isValid = false;
+    } else if (name.length > 200) {
+        showFieldError(nameInput, 'Product name is too long');
+        isValid = false;
+    }
+    
+    // Validate formula
+    const formula = formulaInput.value.trim();
+    if (formula.length < 1) {
+        showFieldError(formulaInput, 'Chemical formula is required');
+        isValid = false;
+    }
+    
+    // Validate category
+    if (categorySelect.value === '') {
+        showFieldError(categorySelect, 'Please select a category');
+        isValid = false;
+    }
+    
+    // Validate form
+    const formValue = formInput.value.trim();
+    if (formValue.length < 2) {
+        showFieldError(formInput, 'Physical form is required');
+        isValid = false;
+    }
+    
+    // Validate purity
+    const purity = purityInput.value.trim();
+    if (purity.length < 1) {
+        showFieldError(purityInput, 'Purity/concentration is required');
+        isValid = false;
+    }
+    
+    // Validate price index
+    const priceIndex = parseInt(priceIndexInput.value);
+    if (isNaN(priceIndex) || priceIndex < 1 || priceIndex > 3) {
+        showFieldError(priceIndexInput, 'Price index must be between 1 and 3');
+        isValid = false;
+    }
+    
+    // Validate effectiveness
+    const effectiveness = parseInt(effectivenessInput.value);
+    if (isNaN(effectiveness) || effectiveness < 0 || effectiveness > 100) {
+        showFieldError(effectivenessInput, 'Effectiveness must be between 0 and 100');
+        isValid = false;
+    }
+    
+    // Validate description
+    const description = descriptionInput.value.trim();
+    if (description.length < 10) {
+        showFieldError(descriptionInput, 'Description must be at least 10 characters');
+        isValid = false;
+    } else if (description.length > 1000) {
+        showFieldError(descriptionInput, 'Description is too long (max 1000 characters)');
+        isValid = false;
+    }
+    
+    if (!isValid) {
+        e.preventDefault();
+        // Scroll to first error
+        const firstError = document.querySelector('.border-red-500');
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstError.focus();
+        }
+        return false;
+    }
+});
+
+function showFieldError(field, message) {
+    // Remove any existing error
+    clearFieldError(field);
+    
+    // Add error styling
+    field.classList.add('border-red-500');
+    field.classList.remove('border-gray-300');
+    
+    // Create and add error message
+    const errorDiv = document.createElement('p');
+    errorDiv.className = 'text-red-500 text-xs mt-1 field-error';
+    errorDiv.textContent = message;
+    field.parentNode.appendChild(errorDiv);
+}
+
+function clearFieldError(field) {
+    field.classList.remove('border-red-500');
+    field.classList.add('border-gray-300');
+    
+    // Remove error message if exists
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+}
+</script>
+
 <?php include 'includes/footer.php'; ?>

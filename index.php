@@ -40,13 +40,16 @@
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center animate-slide-in-right">
-                <!-- Abstract Representation of Purity with 3D Float -->
-                <div class="relative w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-brand-300/80 to-accent-400/80 rounded-full backdrop-blur-sm animate-float flex items-center justify-center shadow-3d-xl perspective-container">
-                     <span class="text-9xl text-white opacity-95 animate-pulse-3d drop-shadow-2xl">💧</span>
-                </div>
+                
             </div>
         </div>
     </div>
+
+    <!-- Abstract Representation of Purity with 3D Float -->
+    <!--<div class="relative w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-brand-300/80 to-accent-400/80 rounded-full backdrop-blur-sm animate-float flex items-center justify-center shadow-3d-xl perspective-container">
+                     <span class="text-9xl text-white opacity-95 animate-pulse-3d drop-shadow-2xl">💧</span>
+    </div>  -->           
+
 
     <!-- Main Content Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
