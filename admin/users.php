@@ -119,7 +119,7 @@ $total_pages = ceil($total_users / $per_page);
                                 <div class="text-sm text-gray-500"><?php echo date('M d, Y', strtotime($user['created_at'])); ?></div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="user_form.php?id=<?php echo $user['id']; ?>" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                                
                                 <a href="?delete=<?php echo $user['id']; ?>" 
                                    onclick="return confirm('Are you sure you want to delete this user?')" 
                                    class="text-red-600 hover:text-red-900">Delete</a>
