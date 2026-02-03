@@ -237,7 +237,7 @@ function isActive($page) {
                                 </div>
 
                                 <div class="flex justify-end pt-4">
-                                    <button type="submit" class="btn-primary">
+                                    <button type="submit" class="px-6 py-3 bg-brand-500 text-white font-medium rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 hover:bg-brand-600 transform hover:-translate-y-1 hover:scale-105 active:scale-95">
                                         Update Profile
                                     </button>
                                 </div>
